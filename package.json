@@ -1,0 +1,36 @@
+{
+  "name": "clothing",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "codegen": "graphql-codegen --config codegen.ts"
+  },
+  "dependencies": {
+    "@vanilla-extract/css": "^1.14.2",
+    "@vanilla-extract/recipes": "^0.5.2",
+    "graphql": "^16.8.1",
+    "next": "14.1.4",
+    "node-cache": "^5.1.2",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/client-preset": "^4.2.4",
+    "@parcel/watcher": "^2.4.1",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@vanilla-extract/next-plugin": "^2.4.0",
+    "classnames": "^2.5.1",
+    "contentful-management": "^11.25.2",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.3"
+  }
+}
