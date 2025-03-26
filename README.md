@@ -1,6 +1,12 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## TODO's
+
+- Add filtering to recipe overview page (filter on book, on cheat, or no cheats at all)
+- Show page nr + book in weekmenu overview
+- Host this somewhere
+- Finish adding recipe in the development branch
 
 ## Getting Started
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ```bash
 yarn codegen --watch
