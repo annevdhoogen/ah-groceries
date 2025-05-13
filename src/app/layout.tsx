@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Roboto_Flex } from "next/font/google";
 import "@/style/global.css";
 import * as styles from "@/style/main.css";
 import { Navigation } from "@components/navigation/navigation";
 import { WeekMenuProvider } from "./contexts/WeekmenuContext";
 
-const font = Roboto({
+const font = Roboto_Flex({
   subsets: ["latin"],
   weight: ["400"],
   style: ["normal"],

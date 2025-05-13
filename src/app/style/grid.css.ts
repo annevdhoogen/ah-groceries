@@ -29,4 +29,5 @@ export const weekmenu = style({
   gap: "16px",
   alignItems: "flex-start",
   justifyContent: "flex-start",
+  overflow: "auto",
 });

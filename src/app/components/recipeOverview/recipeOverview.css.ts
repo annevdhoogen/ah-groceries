@@ -22,6 +22,13 @@ export const listContainer = style({
   },
 });
 
+export const noRecipesFound = style({
+  display: "flex",
+  alignItems: "flex-start",
+  flexDirection: "column",
+  gap: "16px",
+});
+
 export const list = style({
   listStyleType: "none",
   padding: 0,

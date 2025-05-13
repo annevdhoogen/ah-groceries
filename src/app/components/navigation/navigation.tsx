@@ -32,6 +32,7 @@ export const Navigation = () => {
         {renderItem(ROUTES.home, "Home")}
         {renderItem(ROUTES.recipes, "Recepten")}
         {renderItem(ROUTES.weekmenu, "Weekmenu")}
+        {renderItem(ROUTES.add, "Toevoegen")}
       </ul>
     </nav>
   );

@@ -34,29 +34,44 @@ export const WeekMenuList = (weekMenu: WeekMenuProps) => {
       <ul className={styles.weekMenuList}>
         {allWeekMenuRecipesByType[type].map((recipe) => (
           <li key={`weekmenu-${recipe.sys.id}`} className={styles.weekMenuItem}>
-            {recipe.title}
-            <span
-              className={classNames(typographyStyles.smallLabel, styles.labels)}
-            >
-              {recipe.cheatmeal &&
-                recipe.cheatmeal.length > 0 &&
-                recipe.cheatmeal.join(", ")}
-              {recipe.days > 1 && (
-                <>
-                  {recipe.cheatmeal && recipe.cheatmeal.length > 0 && ", "}
-                  {recipe.days}x
-                </>
+            <div className={styles.contentContainer}>
+              <span>
+                {`${recipe.days > 1 ? `${recipe.days}x ` : ""}${recipe.title}`}
+              </span>
+
+              {recipe.cheatmeal && recipe.cheatmeal.length > 0 && (
+                <div className={(typographyStyles.smallLabel, styles.labels)}>
+                  {recipe.cheatmeal.map((cheat) => (
+                    <span
+                      key={`${recipe.sys.id}-${cheat}`}
+                      className={classNames(
+                        typographyStyles.smallLabel,
+                        styles.cheatLabel
+                      )}
+                    >
+                      {cheat}
+                    </span>
+                  ))}
+                </div>
               )}
-            </span>
-            <span>
-              <Button
-                variant="ghost"
-                icon
-                label="x"
-                className={styles.removeButton}
-                onClick={() => removeRecipeFromWeekMenu(recipe)}
-              />
-            </span>
+              {recipe.book && recipe.pageNumber && (
+                <p
+                  className={classNames(
+                    typographyStyles.smallLabel,
+                    styles.book
+                  )}
+                >
+                  {recipe.book} p.{recipe.pageNumber}
+                </p>
+              )}
+            </div>
+            <Button
+              className={styles.removeButton}
+              variant="ghost"
+              icon
+              label="x"
+              onClick={() => removeRecipeFromWeekMenu(recipe)}
+            />
           </li>
         ))}
       </ul>
