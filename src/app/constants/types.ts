@@ -22,4 +22,5 @@ export const BOOKS = [
   "Snelle Bakplaat",
   "Groene Bakplaat",
   "Groene Kookboek",
+  "Vegan Air Fryer",
 ];
