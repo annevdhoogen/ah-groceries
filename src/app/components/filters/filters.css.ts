@@ -25,3 +25,7 @@ export const checkboxes = style({
   gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
   gap: "4px",
 });
+
+export const resetButton = style({
+  alignSelf: "flex-start",
+});

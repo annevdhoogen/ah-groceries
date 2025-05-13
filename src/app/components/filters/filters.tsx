@@ -95,6 +95,7 @@ export const Filters = ({
 
         <div className={styles.container}>
           <Button
+            className={styles.resetButton}
             variant="ghost"
             label="Reset filters"
             onClick={(event) => {
