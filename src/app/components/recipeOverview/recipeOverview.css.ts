@@ -22,6 +22,13 @@ export const listContainer = style({
   },
 });
 
+export const noRecipesFound = style({
+  display: "flex",
+  alignItems: "flex-start",
+  flexDirection: "column",
+  gap: "16px",
+});
+
 export const list = style({
   listStyleType: "none",
   padding: 0,
@@ -72,14 +79,6 @@ export const title = style({
 export const cheatContainer = style({
   display: "flex",
   gap: "8px",
-});
-
-export const cheatLabel = style({
-  backgroundColor: colors.secondary,
-  color: colors.textOnSecondary,
-  alignSelf: "flex-start",
-  padding: "4px 8px",
-  borderRadius: borderRadius,
 });
 
 export const dayLabel = style({

@@ -5,10 +5,11 @@ import { groupRecipes } from "@/utils/groupRecipes";
 import classNames from "classnames";
 import { useWeekMenu, WeekMenuProps } from "@/contexts/WeekmenuContext";
 import { Button } from "../button/button";
+import { NutritionalOverview } from "../nutritionalOverview/nutritionalOverview";
 
 export const WeekMenuList = (weekMenu: WeekMenuProps) => {
   const allWeekMenuRecipesByType = groupRecipes(weekMenu.items);
-  const { removeRecipeFromWeekMenu } = useWeekMenu();
+  const { removeRecipeFromWeekMenu, portionSize } = useWeekMenu();
 
   const weekMenuDays = allWeekMenuRecipesByType[RECIPE]?.reduce(
     (acc, { days }) => acc + days,
@@ -34,29 +35,55 @@ export const WeekMenuList = (weekMenu: WeekMenuProps) => {
       <ul className={styles.weekMenuList}>
         {allWeekMenuRecipesByType[type].map((recipe) => (
           <li key={`weekmenu-${recipe.sys.id}`} className={styles.weekMenuItem}>
-            {recipe.title}
-            <span
-              className={classNames(typographyStyles.smallLabel, styles.labels)}
-            >
-              {recipe.cheatmeal &&
-                recipe.cheatmeal.length > 0 &&
-                recipe.cheatmeal.join(", ")}
-              {recipe.days > 1 && (
-                <>
-                  {recipe.cheatmeal && recipe.cheatmeal.length > 0 && ", "}
-                  {recipe.days}x
-                </>
+            <div className={styles.contentContainer}>
+              <span>
+                {`${recipe.days > 1 ? `${recipe.days}x ` : ""}${recipe.title}`}
+              </span>
+
+              {recipe.cheatmeal && recipe.cheatmeal.length > 0 && (
+                <div className={(typographyStyles.smallLabel, styles.labels)}>
+                  {recipe.cheatmeal.map((cheat) => (
+                    <span
+                      key={`${recipe.sys.id}-${cheat}`}
+                      className={classNames(
+                        typographyStyles.smallLabel,
+                        typographyStyles.cheatLabel,
+                        styles.cheatLabel
+                      )}
+                    >
+                      {cheat}
+                    </span>
+                  ))}
+                </div>
               )}
-            </span>
-            <span>
-              <Button
-                variant="ghost"
-                icon
-                label="x"
-                className={styles.removeButton}
-                onClick={() => removeRecipeFromWeekMenu(recipe)}
+
+              <NutritionalOverview
+                small
+                calories={recipe.calories}
+                carbs={recipe.carbs}
+                protein={recipe.protein}
+                fat={recipe.fat}
+                portionSize={portionSize}
               />
-            </span>
+
+              {recipe.book && recipe.pageNumber && (
+                <p
+                  className={classNames(
+                    typographyStyles.smallLabel,
+                    styles.book
+                  )}
+                >
+                  {recipe.book} p.{recipe.pageNumber}
+                </p>
+              )}
+            </div>
+            <Button
+              className={styles.removeButton}
+              variant="ghost"
+              icon
+              label="x"
+              onClick={() => removeRecipeFromWeekMenu(recipe)}
+            />
           </li>
         ))}
       </ul>

@@ -31,7 +31,8 @@ export const Navigation = () => {
       <ul className={styles.list}>
         {renderItem(ROUTES.home, "Home")}
         {renderItem(ROUTES.recipes, "Recepten")}
-        {renderItem(ROUTES.weekmenu, "Weekmenu")}
+        {renderItem(ROUTES.groceries, "Boodschappen")}
+        {renderItem(ROUTES.add, "Toevoegen")}
       </ul>
     </nav>
   );

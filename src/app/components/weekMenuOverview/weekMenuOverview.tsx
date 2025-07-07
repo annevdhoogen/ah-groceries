@@ -10,7 +10,6 @@ import { useCallback, useEffect, useState } from "react";
 import { GroceryList } from "../groceryList/groceryList";
 import { getAllRequiredProducts } from "@/utils/getAllRequiredProducts";
 import { generateAddToCartUrl } from "@/utils/generateAddToCartUrl";
-import { WeekMenuList } from "../weekMenuList/weekMenuList";
 
 export const WeekMenuOverview = () => {
   const { weekMenu } = useWeekMenu();
@@ -94,7 +93,7 @@ export const WeekMenuOverview = () => {
     <div className={gridStyles.recipesAndMenuGrid}>
       {weekMenu.items.length === 0 ? (
         <div className={styles.container}>
-          <p>Maak een weekmenu van verschillende recepten</p>
+          <p>Maak eerst een weekmenu van verschillende recepten</p>
           <ButtonLink href={ROUTES.recipes} label="Recepten" />
         </div>
       ) : (
@@ -107,8 +106,7 @@ export const WeekMenuOverview = () => {
             {generateOptionalGroceryList()}
           </div>
           <div className={gridStyles.weekmenu}>
-            <h2>Weekmenu</h2>
-            <WeekMenuList {...weekMenu} />
+            <h2>Bestel producten</h2>
             <ButtonLink
               target="_blank"
               href={addToCartUrl}

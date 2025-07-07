@@ -1,4 +1,4 @@
-import { colors } from "@/style/vars.css";
+import { borderRadius, colors } from "@/style/vars.css";
 import { style } from "@vanilla-extract/css";
 
 export const weekMenuListContainer = style({
@@ -17,22 +17,41 @@ export const weekMenuList = style({
 });
 
 export const weekMenuItem = style({
-  display: "flex",
-  alignItems: "center",
-  gap: "8px",
   borderBottom: `2px solid ${colors.primary}`,
   padding: "4px 8px",
-
+  display: "flex",
+  justifyContent: "space-between",
+  gap: "8px",
   ":last-child": {
     borderBottom: "none",
   },
 });
 
+export const contentContainer = style({
+  display: "flex",
+  gap: "4px",
+  flexWrap: "wrap",
+});
+
 export const labels = style({
-  textAlign: "right",
-  marginLeft: "auto",
+  display: "flex",
+  gap: "4px",
+});
+
+export const cheatLabel = style({
+  backgroundColor: colors.secondaryLight,
+});
+
+export const nutrionalLabels = style({
+  display: "flex",
+  flexDirection: "row-reverse",
+  gap: "8px",
 });
 
 export const removeButton = style({
-  marginLeft: "8px",
+  minWidth: "24px",
+});
+
+export const book = style({
+  width: "100%",
 });

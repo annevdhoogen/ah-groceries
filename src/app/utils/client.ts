@@ -2,7 +2,7 @@
 
 import * as contentful from "contentful-management";
 
-const PUBLISH = false; // Set to false to easily delete content from Contentful
+const PUBLISH = true; // Set to false to easily delete content from Contentful
 
 interface createAssetFromFilesProps {
   fileName: string;
@@ -68,88 +68,72 @@ export const createAssetFromFiles = async ({
     .catch(console.error);
 };
 
-export const createEntryItem = async ({
-  brand,
-  category,
-  occasions,
-  fabric,
-  file,
-  fileDescription,
-  fileName,
-  fileType,
-  notes,
-  price,
-  seasons,
-  secondHand,
-  size,
-}: createEntryItemProps) => {
-  const assetId = await createAssetFromFiles({
-    fileName,
-    fileDescription,
-    fileType,
-    file,
-  });
+export interface createRecipeItemProps {
+  title: string;
+  subtitle: string;
+  type: string;
+  book: string;
+  cheats: string[];
+  pageNumber: number;
+  days: number;
+  lemonAmount: number;
+  limeAmount: number;
+  requiredProducts: string[];
+  optionalProducts: string[];
+  file: createAssetFromFilesProps;
+}
 
-  client()
+export const createRecipeItem = async (data: createRecipeItemProps) => {
+  const assetId = await createAssetFromFiles(data.file);
+
+  return client()
     .then((environment) =>
-      environment.createEntry("item", {
+      environment.createEntry("recipe", {
         fields: {
-          size: {
-            "en-US": size,
+          title: {
+            "en-US": data.title,
           },
-          price: {
-            "en-US": price,
+          subtitle: {
+            "en-US": data.subtitle,
           },
-          notes: {
-            "en-US": notes,
+          type: {
+            "en-US": data.type,
           },
-          secondHand: {
-            "en-US": secondHand,
+          book: {
+            "en-US": data.book,
           },
-          brand: {
-            "en-US": {
+          cheatmeal: {
+            "en-US": data.cheats,
+          },
+          pageNumber: {
+            "en-US": data.pageNumber,
+          },
+          days: {
+            "en-US": data.days,
+          },
+          lemonAmount: {
+            "en-US": data.lemonAmount,
+          },
+          limeAmount: {
+            "en-US": data.limeAmount,
+          },
+          products: {
+            "en-US": data.requiredProducts?.map((product) => ({
               sys: {
                 type: "Link",
                 linkType: "Entry",
-                id: brand,
-              },
-            },
-          },
-          season: {
-            "en-US": seasons?.map((season) => ({
-              sys: {
-                type: "Link",
-                linkType: "Entry",
-                id: season,
-              },
-            })),
-          },
-          occasion: {
-            "en-US": occasions?.map((occasion) => ({
-              sys: {
-                type: "Link",
-                linkType: "Entry",
-                id: occasion,
+                id: product,
               },
             })),
           },
-          fabric: {
-            "en-US": {
+          optionalProducts: {
+            "en-US": data.optionalProducts?.map((product) => ({
               sys: {
                 type: "Link",
                 linkType: "Entry",
-                id: fabric,
+                id: product,
               },
-            },
-          },
-          category: {
-            "en-US": {
-              sys: {
-                type: "Link",
-                linkType: "Entry",
-                id: category,
-              },
-            },
+            })),
           },
           image: {
             "en-US": {
@@ -159,23 +143,6 @@ export const createEntryItem = async ({
                 id: assetId,
               },
             },
-          },
-        },
-      })
-    )
-    .then((entry) => {
-      PUBLISH && entry.publish();
-    })
-    .catch(console.error);
-};
-
-export const createSimpleEntry = async (type: string, title: string) => {
-  return client()
-    .then((environment) =>
-      environment.createEntry(type, {
-        fields: {
-          title: {
-            "en-US": title,
           },
         },
       })

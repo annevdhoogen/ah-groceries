@@ -1,6 +1,7 @@
 "use client";
 
 import { RecipeProps } from "@/components/recipe/recipe";
+import { DEFAULT_FILTERS } from "@/constants/types";
 import { createContext, useContext, useState, ReactNode } from "react";
 
 export interface WeekMenuProps {
@@ -11,6 +12,8 @@ interface WeekMenuContextProps {
   weekMenu: WeekMenuProps;
   addRecipeToWeekMenu: (recipe: RecipeProps) => void;
   removeRecipeFromWeekMenu: (recipe: RecipeProps) => void;
+  portionSize: string;
+  setPortionSize: (portionSize: string) => void;
 }
 
 const WeekMenuContext = createContext<WeekMenuContextProps | undefined>(
@@ -23,7 +26,7 @@ interface WeekMenuProviderProps {
 
 export const WeekMenuProvider = ({ children }: WeekMenuProviderProps) => {
   const [weekMenu, updateWeekMenu] = useState<WeekMenuProps>({ items: [] });
-
+  const [portionSize, setPortionSize] = useState(DEFAULT_FILTERS.portionSize);
   const addRecipeToWeekMenu = (recipe: RecipeProps) => {
     // add the recipe to the week menu if it does not exist already
     if (!weekMenu.items.find((r) => r.sys.id === recipe.sys.id)) {
@@ -45,6 +48,8 @@ export const WeekMenuProvider = ({ children }: WeekMenuProviderProps) => {
         weekMenu,
         removeRecipeFromWeekMenu,
         addRecipeToWeekMenu,
+        portionSize,
+        setPortionSize,
       }}
     >
       {children}
