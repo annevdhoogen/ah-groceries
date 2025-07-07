@@ -14,9 +14,10 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  fragment ProductFragment on Product {\n    sys {\n      id\n    }\n    title\n    ahId\n  }\n": types.ProductFragmentFragmentDoc,
-    "\n  fragment RecipeFragment on Recipe {\n    sys {\n      id\n    }\n    title\n    subtitle\n    type\n    image {\n      sys {\n        id\n      }\n      url\n      width\n      height\n    }\n    book\n    pageNumber\n    days\n    cheatmeal\n    productsCollection(limit: 40) {\n      items {\n        ...ProductFragment\n      }\n    }\n    optionalProductsCollection(limit: 40) {\n      items {\n        ...ProductFragment\n      }\n    }\n    lemonAmount\n    limeAmount\n    calories\n    carbs\n    protein\n    fat\n  }\n": types.RecipeFragmentFragmentDoc,
+    "\n  fragment RecipeFragment on Recipe {\n    sys {\n      id\n    }\n    title\n    subtitle\n    type\n    image {\n      sys {\n        id\n      }\n      url\n      width\n      height\n    }\n    book\n    pageNumber\n    days\n    cheatmeal\n    productsCollection(limit: 40) {\n      items {\n        ...ProductFragment\n      }\n    }\n    optionalProductsCollection(limit: 40) {\n      items {\n        ...ProductFragment\n      }\n    }\n    lemonAmount\n    limeAmount\n    calories\n    carbs\n    protein\n    fat\n    description {\n      json\n    }\n  }\n": types.RecipeFragmentFragmentDoc,
     "\n  query Products {\n    productCollection(limit: 100) {\n      items {\n        sys {\n          id\n        }\n        title\n        ahId\n      }\n    }\n  }\n": types.ProductsDocument,
     "\n  query Recipe($id: String!) {\n    recipe(id: $id) {\n      ...RecipeFragment\n    }\n  }\n": types.RecipeDocument,
+    "\n  query RecipeDetail($id: String!) {\n    recipe(id: $id) {\n      ...RecipeFragment\n      description {\n        json\n        links {\n          entries {\n            hyperlink {\n              sys {\n                id\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n": types.RecipeDetailDocument,
     "\n  query RecipeOverview {\n    recipeCollection(limit: 100) {\n      items {\n        ...RecipeFragment\n      }\n    }\n  }\n": types.RecipeOverviewDocument,
 };
 
@@ -41,7 +42,7 @@ export function graphql(source: "\n  fragment ProductFragment on Product {\n    
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  fragment RecipeFragment on Recipe {\n    sys {\n      id\n    }\n    title\n    subtitle\n    type\n    image {\n      sys {\n        id\n      }\n      url\n      width\n      height\n    }\n    book\n    pageNumber\n    days\n    cheatmeal\n    productsCollection(limit: 40) {\n      items {\n        ...ProductFragment\n      }\n    }\n    optionalProductsCollection(limit: 40) {\n      items {\n        ...ProductFragment\n      }\n    }\n    lemonAmount\n    limeAmount\n    calories\n    carbs\n    protein\n    fat\n  }\n"): (typeof documents)["\n  fragment RecipeFragment on Recipe {\n    sys {\n      id\n    }\n    title\n    subtitle\n    type\n    image {\n      sys {\n        id\n      }\n      url\n      width\n      height\n    }\n    book\n    pageNumber\n    days\n    cheatmeal\n    productsCollection(limit: 40) {\n      items {\n        ...ProductFragment\n      }\n    }\n    optionalProductsCollection(limit: 40) {\n      items {\n        ...ProductFragment\n      }\n    }\n    lemonAmount\n    limeAmount\n    calories\n    carbs\n    protein\n    fat\n  }\n"];
+export function graphql(source: "\n  fragment RecipeFragment on Recipe {\n    sys {\n      id\n    }\n    title\n    subtitle\n    type\n    image {\n      sys {\n        id\n      }\n      url\n      width\n      height\n    }\n    book\n    pageNumber\n    days\n    cheatmeal\n    productsCollection(limit: 40) {\n      items {\n        ...ProductFragment\n      }\n    }\n    optionalProductsCollection(limit: 40) {\n      items {\n        ...ProductFragment\n      }\n    }\n    lemonAmount\n    limeAmount\n    calories\n    carbs\n    protein\n    fat\n    description {\n      json\n    }\n  }\n"): (typeof documents)["\n  fragment RecipeFragment on Recipe {\n    sys {\n      id\n    }\n    title\n    subtitle\n    type\n    image {\n      sys {\n        id\n      }\n      url\n      width\n      height\n    }\n    book\n    pageNumber\n    days\n    cheatmeal\n    productsCollection(limit: 40) {\n      items {\n        ...ProductFragment\n      }\n    }\n    optionalProductsCollection(limit: 40) {\n      items {\n        ...ProductFragment\n      }\n    }\n    lemonAmount\n    limeAmount\n    calories\n    carbs\n    protein\n    fat\n    description {\n      json\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -50,6 +51,10 @@ export function graphql(source: "\n  query Products {\n    productCollection(lim
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query Recipe($id: String!) {\n    recipe(id: $id) {\n      ...RecipeFragment\n    }\n  }\n"): (typeof documents)["\n  query Recipe($id: String!) {\n    recipe(id: $id) {\n      ...RecipeFragment\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query RecipeDetail($id: String!) {\n    recipe(id: $id) {\n      ...RecipeFragment\n      description {\n        json\n        links {\n          entries {\n            hyperlink {\n              sys {\n                id\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query RecipeDetail($id: String!) {\n    recipe(id: $id) {\n      ...RecipeFragment\n      description {\n        json\n        links {\n          entries {\n            hyperlink {\n              sys {\n                id\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

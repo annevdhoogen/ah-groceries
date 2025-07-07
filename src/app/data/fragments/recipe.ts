@@ -36,5 +36,8 @@ export const RecipeFragment = graphql(`
     carbs
     protein
     fat
+    description {
+      json
+    }
   }
 `);

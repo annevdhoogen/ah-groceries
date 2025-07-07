@@ -10,7 +10,7 @@ import {
 } from "react";
 import { Input, Select } from "@/components/formElements/formElements";
 import * as styles from "./addRecipe.css";
-import { RECIPE, SNACK, WEEKLY, BOOKS, CHEATS } from "@/constants/types";
+import { BOOKS, CHEATS, TYPES } from "@/constants/types";
 import { Button } from "@/components/button/button";
 import { fetcher } from "@/utils/fetcher";
 import { ProductsQuery } from "@/data/queries/products";
@@ -170,6 +170,8 @@ export const AddRecipe = () => {
     );
   };
 
+  return null; // TEMP
+
   return (
     <form className={styles.form} onSubmit={(e) => submitForm(e)}>
       <div className={styles.mainItems}>
@@ -195,11 +197,12 @@ export const AddRecipe = () => {
         )}
 
         <Select required id="type" label="Type">
-          <option defaultChecked value={RECIPE}>
-            {RECIPE}
+          <option defaultChecked value={TYPES.recipe}>
+            {TYPES.recipe}
           </option>
-          <option value={WEEKLY}>{WEEKLY}</option>
-          <option value={SNACK}>{SNACK}</option>
+          <option value={TYPES.weekly}>{TYPES.weekly}</option>
+          <option value={TYPES.snack}>{TYPES.snack}</option>
+          <option value={TYPES.lunch}>{TYPES.lunch}</option>
         </Select>
 
         <Select id="book" label="Boek">

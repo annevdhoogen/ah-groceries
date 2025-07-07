@@ -11,9 +11,12 @@ export const CHEATS = [
 export const FISH = "Vis";
 
 // Types
-export const RECIPE = "Recept";
-export const WEEKLY = "Wekelijks";
-export const SNACK = "Snack";
+export const TYPES = {
+  weekly: "Wekelijks",
+  recipe: "Recept",
+  lunch: "Lunch",
+  snack: "Snack",
+};
 
 // Books
 export const BOOKS = [

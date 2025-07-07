@@ -1,5 +1,5 @@
 import { RecipeProps } from "@/components/recipe/recipe";
-import { RECIPE } from "@/constants/types";
+import { TYPES } from "@/constants/types";
 
 export interface groupedRecipesProps {
   [key: string]: RecipeProps[];
@@ -7,10 +7,10 @@ export interface groupedRecipesProps {
 
 // group recipes by type
 export const groupRecipes = (recipes: RecipeProps[], sort?: string) => {
-  const sortedTypes = ["Wekelijks", "Recept", "Snack"];
+  const sortedTypes = Object.values(TYPES);
 
   const grouped = Array.from(recipes).reduce((acc, recipe) => {
-    const type = recipe.type || RECIPE;
+    const type = recipe.type || TYPES.recipe;
     if (!acc[type]) {
       acc[type] = [];
     }
@@ -26,7 +26,9 @@ export const groupRecipes = (recipes: RecipeProps[], sort?: string) => {
   });
 
   if (sort) {
-    sortedGroupedRecipes[RECIPE] = sortedGroupedRecipes[RECIPE].sort((a, b) => {
+    sortedGroupedRecipes[TYPES.recipe] = sortedGroupedRecipes[
+      TYPES.recipe
+    ].sort((a, b) => {
       switch (sort) {
         case "title":
           return a.title.localeCompare(b.title);

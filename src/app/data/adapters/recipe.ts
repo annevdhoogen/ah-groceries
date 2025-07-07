@@ -1,5 +1,6 @@
 import { RecipeProps } from "@/components/recipe/recipe";
 import { RecipeQuery } from "@/generated/graphql";
+import { Document } from "@contentful/rich-text-types";
 
 export const recipeAdapter = async (
   data: RecipeQuery
@@ -43,5 +44,6 @@ export const recipeAdapter = async (
     carbs: data.recipe?.carbs || 0,
     protein: data.recipe?.protein || 0,
     fat: data.recipe?.fat || 0,
+    description: data.recipe?.description?.json as Document | undefined,
   };
 };

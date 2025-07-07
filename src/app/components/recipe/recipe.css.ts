@@ -11,6 +11,19 @@ export const container = style({
 
 export const headerContainer = style({
   display: "flex",
+  justifyContent: "space-between",
+  gap: "16px",
+  width: "100%",
+
+  "@media": {
+    "(max-width: 768px)": {
+      flexDirection: "column",
+    },
+  },
+});
+
+export const headerContent = style({
+  display: "flex",
   flexDirection: "column",
   gap: "4px",
 });
@@ -32,16 +45,29 @@ export const contentContainer = style({
   },
 });
 
+export const imageDescriptionContainer = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: "16px",
+});
+
 export const imageContainer = style({
   overflow: "hidden",
   borderRadius: borderRadius,
   aspectRatio: "1",
   width: "100%",
   height: "100%",
+  maxWidth: "220px",
 });
 
 export const image = style({
   width: "100%",
   height: "100%",
   objectFit: "cover",
+});
+
+export const description = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: "8px",
 });
