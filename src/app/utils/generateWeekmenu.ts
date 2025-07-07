@@ -1,5 +1,5 @@
 import { RecipeProps } from "@/components/recipe/recipe";
-import { FISH, RECIPE, WEEKLY } from "@/constants/types";
+import { FISH, TYPES } from "@/constants/types";
 
 /**
  * Generates a week menu by selecting recipes from the provided list of all recipes.
@@ -18,10 +18,12 @@ export const generateWeekMenu = (
   const selectedRecipes = [];
 
   // Filter out recipes
-  const weeklyRecipes = allRecipes.filter((recipe) => recipe.type === WEEKLY);
+  const weeklyRecipes = allRecipes.filter(
+    (recipe) => recipe.type === TYPES.weekly
+  );
 
   const recipesToChooseFromForTheWeek = allRecipes
-    .filter((recipe) => recipe.type === RECIPE)
+    .filter((recipe) => recipe.type === TYPES.recipe)
     .sort(() => 0.5 - Math.random());
 
   const fishCheatmealRecipes = recipesToChooseFromForTheWeek.filter(

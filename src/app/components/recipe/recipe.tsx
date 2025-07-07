@@ -6,7 +6,10 @@ import { getAllRequiredProducts } from "@/utils/getAllRequiredProducts";
 import { Button } from "../button/button";
 import { useWeekMenu } from "@/contexts/WeekmenuContext";
 import Image from "next/image";
-
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { Document, INLINES } from "@contentful/rich-text-types";
+import { ROUTES } from "@/constants/routes";
+import Link from "next/link";
 export interface productProps {
   title: string;
   ahId: number;
@@ -40,6 +43,7 @@ export interface RecipeProps {
   carbs?: number;
   protein?: number;
   fat?: number;
+  description?: Document;
 }
 
 export const Recipe = (recipe: RecipeProps) => {
@@ -55,7 +59,10 @@ export const Recipe = (recipe: RecipeProps) => {
     lemonAmount,
     limeAmount,
     optionalProducts,
+    image,
+    description,
   } = recipe;
+
   const { weekMenu, addRecipeToWeekMenu, removeRecipeFromWeekMenu } =
     useWeekMenu();
 
@@ -69,33 +76,27 @@ export const Recipe = (recipe: RecipeProps) => {
   return (
     <section className={styles.container}>
       <div className={styles.headerContainer}>
-        {subtitle && <p>{subtitle}</p>}
+        <div className={styles.headerContent}>
+          {subtitle && <p>{subtitle}</p>}
 
-        {book && (
-          <p>
-            {book} {pageNumber && `p.${pageNumber}`}
-          </p>
-        )}
+          {book && (
+            <p>
+              {book} {pageNumber && `p.${pageNumber}`}
+            </p>
+          )}
 
-        {days > 1 && <p>Voor {days} dagen</p>}
+          {days > 1 && <p>Voor {days} dagen</p>}
 
-        {cheatmeal && cheatmeal.length > 0 && (
-          <p>Bevat: {cheatmeal.join(", ")}</p>
-        )}
-      </div>
-
-      <div className={styles.contentContainer}>
-        <GroceryList title="Ingrediënten" products={allRequiredProducts} />
-        <GroceryList
-          title="Optionele Ingrediënten"
-          products={optionalProducts}
-        />
-        {recipe.image && (
+          {cheatmeal && cheatmeal.length > 0 && (
+            <p>Bevat: {cheatmeal.join(", ")}</p>
+          )}
+        </div>
+        {image && (
           <div className={styles.imageContainer}>
             <Image
-              width={recipe.image.width}
-              height={recipe.image.height}
-              src={recipe.image.url}
+              width={image.width}
+              height={image.height}
+              src={image.url}
               alt={title}
               className={styles.image}
               loading="lazy"
@@ -103,7 +104,29 @@ export const Recipe = (recipe: RecipeProps) => {
           </div>
         )}
       </div>
-
+      <div className={styles.contentContainer}>
+        <GroceryList title="Ingrediënten" products={allRequiredProducts} />
+        <GroceryList
+          title="Optionele Ingrediënten"
+          products={optionalProducts}
+        />
+        {description && (
+          <div className={styles.description}>
+            <h2>Beschrijving</h2>
+            {documentToReactComponents(description, {
+              renderNode: {
+                [INLINES.ENTRY_HYPERLINK]: (node, children) => {
+                  return (
+                    <Link href={`${ROUTES.recipes}/${node.data.target.sys.id}`}>
+                      {children}
+                    </Link>
+                  );
+                },
+              },
+            })}
+          </div>
+        )}
+      </div>
       <Button
         label={
           recipeIsInWeekMenu

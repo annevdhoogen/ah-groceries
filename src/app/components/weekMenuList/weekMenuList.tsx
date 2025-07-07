@@ -1,4 +1,4 @@
-import { RECIPE } from "@/constants/types";
+import { TYPES } from "@/constants/types";
 import * as styles from "./weekMenuList.css";
 import * as typographyStyles from "@/style/typography.css";
 import { groupRecipes } from "@/utils/groupRecipes";
@@ -11,7 +11,7 @@ export const WeekMenuList = (weekMenu: WeekMenuProps) => {
   const allWeekMenuRecipesByType = groupRecipes(weekMenu.items);
   const { removeRecipeFromWeekMenu, portionSize } = useWeekMenu();
 
-  const weekMenuDays = allWeekMenuRecipesByType[RECIPE]?.reduce(
+  const weekMenuDays = allWeekMenuRecipesByType[TYPES.recipe]?.reduce(
     (acc, { days }) => acc + days,
     0
   );
@@ -19,7 +19,7 @@ export const WeekMenuList = (weekMenu: WeekMenuProps) => {
   return Object.keys(allWeekMenuRecipesByType).map((type) => (
     <div key={`weekmenu-${type}`} className={styles.weekMenuListContainer}>
       <h3>
-        {type === RECIPE ? (
+        {type === TYPES.recipe ? (
           <>
             {weekMenuDays > 0 && (
               <>
