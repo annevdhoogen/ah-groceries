@@ -32,5 +32,9 @@ export const RecipeFragment = graphql(`
     }
     lemonAmount
     limeAmount
+    calories
+    carbs
+    protein
+    fat
   }
 `);

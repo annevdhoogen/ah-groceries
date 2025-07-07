@@ -40,10 +40,12 @@ export const labels = style({
 
 export const cheatLabel = style({
   backgroundColor: colors.secondaryLight,
-  color: colors.textOnSecondary,
-  alignSelf: "flex-start",
-  padding: "4px 8px",
-  borderRadius: borderRadius,
+});
+
+export const nutrionalLabels = style({
+  display: "flex",
+  flexDirection: "row-reverse",
+  gap: "8px",
 });
 
 export const removeButton = style({

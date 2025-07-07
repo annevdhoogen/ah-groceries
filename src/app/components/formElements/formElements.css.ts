@@ -19,14 +19,16 @@ export const label = style({
   marginBottom: "4px",
 });
 
-export const input = style({
-  // padding: "4px",
-  // border: "1px solid #ccc",
-  // borderRadius: "4px",
+export const description = style({
+  marginTop: "8px",
+  fontStyle: "italic",
+  color: colors.textLightOnSecondary,
+});
 
+export const input = style({
   fontSize: "1rem",
   padding: "12px 16px",
-  borderRadius,
+  borderRadius: borderRadius,
   border: `1px solid ${colors.border}`,
   width: "100%",
 });

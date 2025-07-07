@@ -25,6 +25,8 @@ export type Scalars = {
   Dimension: { input: any; output: any; }
   /** The 'HexColor' type represents color in `rgb:ffffff` string format. */
   HexColor: { input: any; output: any; }
+  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  JSON: { input: any; output: any; }
   /** The 'Quality' type represents quality as whole numeric values between `1` and `100`. */
   Quality: { input: any; output: any; }
 };
@@ -296,6 +298,7 @@ export enum EntryOrder {
 }
 
 export enum ImageFormat {
+  /** AVIF image format. */
   Avif = 'AVIF',
   /** JPG image format. */
   Jpg = 'JPG',
@@ -476,14 +479,22 @@ export type ProductLinkingCollectionsRecipeCollectionArgs = {
 export enum ProductLinkingCollectionsRecipeCollectionOrder {
   BookAsc = 'book_ASC',
   BookDesc = 'book_DESC',
+  CaloriesAsc = 'calories_ASC',
+  CaloriesDesc = 'calories_DESC',
+  CarbsAsc = 'carbs_ASC',
+  CarbsDesc = 'carbs_DESC',
   DaysAsc = 'days_ASC',
   DaysDesc = 'days_DESC',
+  FatAsc = 'fat_ASC',
+  FatDesc = 'fat_DESC',
   LemonAmountAsc = 'lemonAmount_ASC',
   LemonAmountDesc = 'lemonAmount_DESC',
   LimeAmountAsc = 'limeAmount_ASC',
   LimeAmountDesc = 'limeAmount_DESC',
   PageNumberAsc = 'pageNumber_ASC',
   PageNumberDesc = 'pageNumber_DESC',
+  ProteinAsc = 'protein_ASC',
+  ProteinDesc = 'protein_DESC',
   SubtitleAsc = 'subtitle_ASC',
   SubtitleDesc = 'subtitle_DESC',
   SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
@@ -518,6 +529,7 @@ export enum ProductOrder {
 export type Query = {
   __typename: 'Query';
   _node?: Maybe<_Node>;
+  _nodes: Array<Maybe<_Node>>;
   asset?: Maybe<Asset>;
   assetCollection?: Maybe<AssetCollection>;
   entryCollection?: Maybe<EntryCollection>;
@@ -530,6 +542,13 @@ export type Query = {
 
 export type Query_NodeArgs = {
   id: Scalars['ID']['input'];
+  locale?: InputMaybe<Scalars['String']['input']>;
+  preview?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type Query_NodesArgs = {
+  ids: Array<Scalars['ID']['input']>;
   locale?: InputMaybe<Scalars['String']['input']>;
   preview?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -600,9 +619,12 @@ export type Recipe = Entry & _Node & {
   __typename: 'Recipe';
   _id: Scalars['ID']['output'];
   book?: Maybe<Scalars['String']['output']>;
+  calories?: Maybe<Scalars['Int']['output']>;
+  carbs?: Maybe<Scalars['Float']['output']>;
   cheatmeal?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   contentfulMetadata: ContentfulMetadata;
   days?: Maybe<Scalars['Int']['output']>;
+  fat?: Maybe<Scalars['Float']['output']>;
   image?: Maybe<Asset>;
   lemonAmount?: Maybe<Scalars['Int']['output']>;
   limeAmount?: Maybe<Scalars['Int']['output']>;
@@ -610,6 +632,7 @@ export type Recipe = Entry & _Node & {
   optionalProductsCollection?: Maybe<RecipeOptionalProductsCollection>;
   pageNumber?: Maybe<Scalars['Int']['output']>;
   productsCollection?: Maybe<RecipeProductsCollection>;
+  protein?: Maybe<Scalars['Float']['output']>;
   subtitle?: Maybe<Scalars['String']['output']>;
   sys: Sys;
   title?: Maybe<Scalars['String']['output']>;
@@ -624,6 +647,18 @@ export type RecipeBookArgs = {
 
 
 /** [See type definition](https://app.contentful.com/spaces/gyyzqz4qo3su/content_types/recipe) */
+export type RecipeCaloriesArgs = {
+  locale?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/gyyzqz4qo3su/content_types/recipe) */
+export type RecipeCarbsArgs = {
+  locale?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/gyyzqz4qo3su/content_types/recipe) */
 export type RecipeCheatmealArgs = {
   locale?: InputMaybe<Scalars['String']['input']>;
 };
@@ -631,6 +666,12 @@ export type RecipeCheatmealArgs = {
 
 /** [See type definition](https://app.contentful.com/spaces/gyyzqz4qo3su/content_types/recipe) */
 export type RecipeDaysArgs = {
+  locale?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/gyyzqz4qo3su/content_types/recipe) */
+export type RecipeFatArgs = {
   locale?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -689,6 +730,12 @@ export type RecipeProductsCollectionArgs = {
 
 
 /** [See type definition](https://app.contentful.com/spaces/gyyzqz4qo3su/content_types/recipe) */
+export type RecipeProteinArgs = {
+  locale?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** [See type definition](https://app.contentful.com/spaces/gyyzqz4qo3su/content_types/recipe) */
 export type RecipeSubtitleArgs = {
   locale?: InputMaybe<Scalars['String']['input']>;
 };
@@ -723,6 +770,24 @@ export type RecipeFilter = {
   book_not?: InputMaybe<Scalars['String']['input']>;
   book_not_contains?: InputMaybe<Scalars['String']['input']>;
   book_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  calories?: InputMaybe<Scalars['Int']['input']>;
+  calories_exists?: InputMaybe<Scalars['Boolean']['input']>;
+  calories_gt?: InputMaybe<Scalars['Int']['input']>;
+  calories_gte?: InputMaybe<Scalars['Int']['input']>;
+  calories_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  calories_lt?: InputMaybe<Scalars['Int']['input']>;
+  calories_lte?: InputMaybe<Scalars['Int']['input']>;
+  calories_not?: InputMaybe<Scalars['Int']['input']>;
+  calories_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  carbs?: InputMaybe<Scalars['Float']['input']>;
+  carbs_exists?: InputMaybe<Scalars['Boolean']['input']>;
+  carbs_gt?: InputMaybe<Scalars['Float']['input']>;
+  carbs_gte?: InputMaybe<Scalars['Float']['input']>;
+  carbs_in?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
+  carbs_lt?: InputMaybe<Scalars['Float']['input']>;
+  carbs_lte?: InputMaybe<Scalars['Float']['input']>;
+  carbs_not?: InputMaybe<Scalars['Float']['input']>;
+  carbs_not_in?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
   cheatmeal_contains_all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   cheatmeal_contains_none?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   cheatmeal_contains_some?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
@@ -737,6 +802,15 @@ export type RecipeFilter = {
   days_lte?: InputMaybe<Scalars['Int']['input']>;
   days_not?: InputMaybe<Scalars['Int']['input']>;
   days_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  fat?: InputMaybe<Scalars['Float']['input']>;
+  fat_exists?: InputMaybe<Scalars['Boolean']['input']>;
+  fat_gt?: InputMaybe<Scalars['Float']['input']>;
+  fat_gte?: InputMaybe<Scalars['Float']['input']>;
+  fat_in?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
+  fat_lt?: InputMaybe<Scalars['Float']['input']>;
+  fat_lte?: InputMaybe<Scalars['Float']['input']>;
+  fat_not?: InputMaybe<Scalars['Float']['input']>;
+  fat_not_in?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
   image_exists?: InputMaybe<Scalars['Boolean']['input']>;
   lemonAmount?: InputMaybe<Scalars['Int']['input']>;
   lemonAmount_exists?: InputMaybe<Scalars['Boolean']['input']>;
@@ -769,6 +843,15 @@ export type RecipeFilter = {
   pageNumber_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   products?: InputMaybe<CfProductNestedFilter>;
   productsCollection_exists?: InputMaybe<Scalars['Boolean']['input']>;
+  protein?: InputMaybe<Scalars['Float']['input']>;
+  protein_exists?: InputMaybe<Scalars['Boolean']['input']>;
+  protein_gt?: InputMaybe<Scalars['Float']['input']>;
+  protein_gte?: InputMaybe<Scalars['Float']['input']>;
+  protein_in?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
+  protein_lt?: InputMaybe<Scalars['Float']['input']>;
+  protein_lte?: InputMaybe<Scalars['Float']['input']>;
+  protein_not?: InputMaybe<Scalars['Float']['input']>;
+  protein_not_in?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
   subtitle?: InputMaybe<Scalars['String']['input']>;
   subtitle_contains?: InputMaybe<Scalars['String']['input']>;
   subtitle_exists?: InputMaybe<Scalars['Boolean']['input']>;
@@ -832,14 +915,22 @@ export enum RecipeOptionalProductsCollectionOrder {
 export enum RecipeOrder {
   BookAsc = 'book_ASC',
   BookDesc = 'book_DESC',
+  CaloriesAsc = 'calories_ASC',
+  CaloriesDesc = 'calories_DESC',
+  CarbsAsc = 'carbs_ASC',
+  CarbsDesc = 'carbs_DESC',
   DaysAsc = 'days_ASC',
   DaysDesc = 'days_DESC',
+  FatAsc = 'fat_ASC',
+  FatDesc = 'fat_DESC',
   LemonAmountAsc = 'lemonAmount_ASC',
   LemonAmountDesc = 'lemonAmount_DESC',
   LimeAmountAsc = 'limeAmount_ASC',
   LimeAmountDesc = 'limeAmount_DESC',
   PageNumberAsc = 'pageNumber_ASC',
   PageNumberDesc = 'pageNumber_DESC',
+  ProteinAsc = 'protein_ASC',
+  ProteinDesc = 'protein_DESC',
   SubtitleAsc = 'subtitle_ASC',
   SubtitleDesc = 'subtitle_DESC',
   SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
@@ -929,7 +1020,7 @@ export type SysFilter = {
 };
 
 /**
- * Represents a tag entity for finding and organizing content easily.
+ * Represents a taxonomy concept entity for finding and organizing content easily.
  *         Find out more here: https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/content-concepts
  */
 export type TaxonomyConcept = {
@@ -966,7 +1057,7 @@ export type CfProductNestedFilter = {
 
 export type ProductFragmentFragment = { __typename: 'Product', title?: string | null, ahId?: number | null, sys: { __typename: 'Sys', id: string } };
 
-export type RecipeFragmentFragment = { __typename: 'Recipe', title?: string | null, subtitle?: string | null, type?: string | null, book?: string | null, pageNumber?: number | null, days?: number | null, cheatmeal?: Array<string | null> | null, lemonAmount?: number | null, limeAmount?: number | null, sys: { __typename: 'Sys', id: string }, image?: { __typename: 'Asset', url?: string | null, width?: number | null, height?: number | null, sys: { __typename: 'Sys', id: string } } | null, productsCollection?: { __typename: 'RecipeProductsCollection', items: Array<{ __typename: 'Product', title?: string | null, ahId?: number | null, sys: { __typename: 'Sys', id: string } } | null> } | null, optionalProductsCollection?: { __typename: 'RecipeOptionalProductsCollection', items: Array<{ __typename: 'Product', title?: string | null, ahId?: number | null, sys: { __typename: 'Sys', id: string } } | null> } | null };
+export type RecipeFragmentFragment = { __typename: 'Recipe', title?: string | null, subtitle?: string | null, type?: string | null, book?: string | null, pageNumber?: number | null, days?: number | null, cheatmeal?: Array<string | null> | null, lemonAmount?: number | null, limeAmount?: number | null, calories?: number | null, carbs?: number | null, protein?: number | null, fat?: number | null, sys: { __typename: 'Sys', id: string }, image?: { __typename: 'Asset', url?: string | null, width?: number | null, height?: number | null, sys: { __typename: 'Sys', id: string } } | null, productsCollection?: { __typename: 'RecipeProductsCollection', items: Array<{ __typename: 'Product', title?: string | null, ahId?: number | null, sys: { __typename: 'Sys', id: string } } | null> } | null, optionalProductsCollection?: { __typename: 'RecipeOptionalProductsCollection', items: Array<{ __typename: 'Product', title?: string | null, ahId?: number | null, sys: { __typename: 'Sys', id: string } } | null> } | null };
 
 export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -978,15 +1069,15 @@ export type RecipeQueryVariables = Exact<{
 }>;
 
 
-export type RecipeQuery = { __typename: 'Query', recipe?: { __typename: 'Recipe', title?: string | null, subtitle?: string | null, type?: string | null, book?: string | null, pageNumber?: number | null, days?: number | null, cheatmeal?: Array<string | null> | null, lemonAmount?: number | null, limeAmount?: number | null, sys: { __typename: 'Sys', id: string }, image?: { __typename: 'Asset', url?: string | null, width?: number | null, height?: number | null, sys: { __typename: 'Sys', id: string } } | null, productsCollection?: { __typename: 'RecipeProductsCollection', items: Array<{ __typename: 'Product', title?: string | null, ahId?: number | null, sys: { __typename: 'Sys', id: string } } | null> } | null, optionalProductsCollection?: { __typename: 'RecipeOptionalProductsCollection', items: Array<{ __typename: 'Product', title?: string | null, ahId?: number | null, sys: { __typename: 'Sys', id: string } } | null> } | null } | null };
+export type RecipeQuery = { __typename: 'Query', recipe?: { __typename: 'Recipe', title?: string | null, subtitle?: string | null, type?: string | null, book?: string | null, pageNumber?: number | null, days?: number | null, cheatmeal?: Array<string | null> | null, lemonAmount?: number | null, limeAmount?: number | null, calories?: number | null, carbs?: number | null, protein?: number | null, fat?: number | null, sys: { __typename: 'Sys', id: string }, image?: { __typename: 'Asset', url?: string | null, width?: number | null, height?: number | null, sys: { __typename: 'Sys', id: string } } | null, productsCollection?: { __typename: 'RecipeProductsCollection', items: Array<{ __typename: 'Product', title?: string | null, ahId?: number | null, sys: { __typename: 'Sys', id: string } } | null> } | null, optionalProductsCollection?: { __typename: 'RecipeOptionalProductsCollection', items: Array<{ __typename: 'Product', title?: string | null, ahId?: number | null, sys: { __typename: 'Sys', id: string } } | null> } | null } | null };
 
 export type RecipeOverviewQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RecipeOverviewQuery = { __typename: 'Query', recipeCollection?: { __typename: 'RecipeCollection', items: Array<{ __typename: 'Recipe', title?: string | null, subtitle?: string | null, type?: string | null, book?: string | null, pageNumber?: number | null, days?: number | null, cheatmeal?: Array<string | null> | null, lemonAmount?: number | null, limeAmount?: number | null, sys: { __typename: 'Sys', id: string }, image?: { __typename: 'Asset', url?: string | null, width?: number | null, height?: number | null, sys: { __typename: 'Sys', id: string } } | null, productsCollection?: { __typename: 'RecipeProductsCollection', items: Array<{ __typename: 'Product', title?: string | null, ahId?: number | null, sys: { __typename: 'Sys', id: string } } | null> } | null, optionalProductsCollection?: { __typename: 'RecipeOptionalProductsCollection', items: Array<{ __typename: 'Product', title?: string | null, ahId?: number | null, sys: { __typename: 'Sys', id: string } } | null> } | null } | null> } | null };
+export type RecipeOverviewQuery = { __typename: 'Query', recipeCollection?: { __typename: 'RecipeCollection', items: Array<{ __typename: 'Recipe', title?: string | null, subtitle?: string | null, type?: string | null, book?: string | null, pageNumber?: number | null, days?: number | null, cheatmeal?: Array<string | null> | null, lemonAmount?: number | null, limeAmount?: number | null, calories?: number | null, carbs?: number | null, protein?: number | null, fat?: number | null, sys: { __typename: 'Sys', id: string }, image?: { __typename: 'Asset', url?: string | null, width?: number | null, height?: number | null, sys: { __typename: 'Sys', id: string } } | null, productsCollection?: { __typename: 'RecipeProductsCollection', items: Array<{ __typename: 'Product', title?: string | null, ahId?: number | null, sys: { __typename: 'Sys', id: string } } | null> } | null, optionalProductsCollection?: { __typename: 'RecipeOptionalProductsCollection', items: Array<{ __typename: 'Product', title?: string | null, ahId?: number | null, sys: { __typename: 'Sys', id: string } } | null> } | null } | null> } | null };
 
 export const ProductFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ProductFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Product"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"ahId"}}]}}]} as unknown as DocumentNode<ProductFragmentFragment, unknown>;
-export const RecipeFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RecipeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Recipe"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"subtitle"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}}]}},{"kind":"Field","name":{"kind":"Name","value":"book"}},{"kind":"Field","name":{"kind":"Name","value":"pageNumber"}},{"kind":"Field","name":{"kind":"Name","value":"days"}},{"kind":"Field","name":{"kind":"Name","value":"cheatmeal"}},{"kind":"Field","name":{"kind":"Name","value":"productsCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"40"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ProductFragment"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"optionalProductsCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"40"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ProductFragment"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"lemonAmount"}},{"kind":"Field","name":{"kind":"Name","value":"limeAmount"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ProductFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Product"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"ahId"}}]}}]} as unknown as DocumentNode<RecipeFragmentFragment, unknown>;
+export const RecipeFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RecipeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Recipe"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"subtitle"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}}]}},{"kind":"Field","name":{"kind":"Name","value":"book"}},{"kind":"Field","name":{"kind":"Name","value":"pageNumber"}},{"kind":"Field","name":{"kind":"Name","value":"days"}},{"kind":"Field","name":{"kind":"Name","value":"cheatmeal"}},{"kind":"Field","name":{"kind":"Name","value":"productsCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"40"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ProductFragment"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"optionalProductsCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"40"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ProductFragment"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"lemonAmount"}},{"kind":"Field","name":{"kind":"Name","value":"limeAmount"}},{"kind":"Field","name":{"kind":"Name","value":"calories"}},{"kind":"Field","name":{"kind":"Name","value":"carbs"}},{"kind":"Field","name":{"kind":"Name","value":"protein"}},{"kind":"Field","name":{"kind":"Name","value":"fat"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ProductFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Product"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"ahId"}}]}}]} as unknown as DocumentNode<RecipeFragmentFragment, unknown>;
 export const ProductsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Products"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"productCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"100"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"ahId"}}]}}]}}]}}]} as unknown as DocumentNode<ProductsQuery, ProductsQueryVariables>;
-export const RecipeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Recipe"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recipe"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RecipeFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ProductFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Product"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"ahId"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RecipeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Recipe"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"subtitle"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}}]}},{"kind":"Field","name":{"kind":"Name","value":"book"}},{"kind":"Field","name":{"kind":"Name","value":"pageNumber"}},{"kind":"Field","name":{"kind":"Name","value":"days"}},{"kind":"Field","name":{"kind":"Name","value":"cheatmeal"}},{"kind":"Field","name":{"kind":"Name","value":"productsCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"40"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ProductFragment"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"optionalProductsCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"40"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ProductFragment"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"lemonAmount"}},{"kind":"Field","name":{"kind":"Name","value":"limeAmount"}}]}}]} as unknown as DocumentNode<RecipeQuery, RecipeQueryVariables>;
-export const RecipeOverviewDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RecipeOverview"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recipeCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"100"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RecipeFragment"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ProductFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Product"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"ahId"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RecipeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Recipe"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"subtitle"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}}]}},{"kind":"Field","name":{"kind":"Name","value":"book"}},{"kind":"Field","name":{"kind":"Name","value":"pageNumber"}},{"kind":"Field","name":{"kind":"Name","value":"days"}},{"kind":"Field","name":{"kind":"Name","value":"cheatmeal"}},{"kind":"Field","name":{"kind":"Name","value":"productsCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"40"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ProductFragment"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"optionalProductsCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"40"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ProductFragment"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"lemonAmount"}},{"kind":"Field","name":{"kind":"Name","value":"limeAmount"}}]}}]} as unknown as DocumentNode<RecipeOverviewQuery, RecipeOverviewQueryVariables>;
+export const RecipeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Recipe"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recipe"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RecipeFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ProductFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Product"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"ahId"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RecipeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Recipe"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"subtitle"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}}]}},{"kind":"Field","name":{"kind":"Name","value":"book"}},{"kind":"Field","name":{"kind":"Name","value":"pageNumber"}},{"kind":"Field","name":{"kind":"Name","value":"days"}},{"kind":"Field","name":{"kind":"Name","value":"cheatmeal"}},{"kind":"Field","name":{"kind":"Name","value":"productsCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"40"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ProductFragment"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"optionalProductsCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"40"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ProductFragment"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"lemonAmount"}},{"kind":"Field","name":{"kind":"Name","value":"limeAmount"}},{"kind":"Field","name":{"kind":"Name","value":"calories"}},{"kind":"Field","name":{"kind":"Name","value":"carbs"}},{"kind":"Field","name":{"kind":"Name","value":"protein"}},{"kind":"Field","name":{"kind":"Name","value":"fat"}}]}}]} as unknown as DocumentNode<RecipeQuery, RecipeQueryVariables>;
+export const RecipeOverviewDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RecipeOverview"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recipeCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"100"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RecipeFragment"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ProductFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Product"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"ahId"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RecipeFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Recipe"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"subtitle"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sys"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}}]}},{"kind":"Field","name":{"kind":"Name","value":"book"}},{"kind":"Field","name":{"kind":"Name","value":"pageNumber"}},{"kind":"Field","name":{"kind":"Name","value":"days"}},{"kind":"Field","name":{"kind":"Name","value":"cheatmeal"}},{"kind":"Field","name":{"kind":"Name","value":"productsCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"40"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ProductFragment"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"optionalProductsCollection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"40"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ProductFragment"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"lemonAmount"}},{"kind":"Field","name":{"kind":"Name","value":"limeAmount"}},{"kind":"Field","name":{"kind":"Name","value":"calories"}},{"kind":"Field","name":{"kind":"Name","value":"carbs"}},{"kind":"Field","name":{"kind":"Name","value":"protein"}},{"kind":"Field","name":{"kind":"Name","value":"fat"}}]}}]} as unknown as DocumentNode<RecipeOverviewQuery, RecipeOverviewQueryVariables>;

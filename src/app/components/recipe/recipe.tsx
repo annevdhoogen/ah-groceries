@@ -36,6 +36,10 @@ export interface RecipeProps {
     width: number;
     height: number;
   };
+  calories?: number;
+  carbs?: number;
+  protein?: number;
+  fat?: number;
 }
 
 export const Recipe = (recipe: RecipeProps) => {

@@ -4,7 +4,7 @@ import { WeekMenuOverview } from "@/components/weekMenuOverview/weekMenuOverview
 export default async function Page() {
   return (
     <>
-      <PageTitle title="Weekmenu" />
+      <PageTitle title="Boodschappen" />
       <WeekMenuOverview />
     </>
   );

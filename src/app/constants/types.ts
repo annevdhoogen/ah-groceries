@@ -24,3 +24,20 @@ export const BOOKS = [
   "Groene Kookboek",
   "Vegan Air Fryer",
 ];
+
+// Filter defaults
+export const DEFAULT_FILTERS = {
+  title: "",
+  cheat: [],
+  days: 0,
+  portionSize: "0.4",
+  sort: "title",
+};
+
+export const SORT_OPTIONS = [
+  { label: "Titel", value: "title" },
+  { label: "Calories", value: "calories" },
+  { label: "Carbs", value: "carbs" },
+  { label: "Protein", value: "protein" },
+  { label: "Fat", value: "fat" },
+];

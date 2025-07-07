@@ -16,23 +16,27 @@ import { groupRecipes } from "@/utils/groupRecipes";
 import Image from "next/image";
 import classNames from "classnames";
 import { Filters } from "../filters/filters";
-import { NO_CHEAT } from "@/constants/types";
+import { DEFAULT_FILTERS, NO_CHEAT } from "@/constants/types";
+import { NutritionalOverview } from "../nutritionalOverview/nutritionalOverview";
 export interface RecipeOverviewProps {
   recipes: RecipeProps[];
 }
 
 const RecipeOverview = ({ recipes }: RecipeOverviewProps) => {
-  const { weekMenu, addRecipeToWeekMenu, removeRecipeFromWeekMenu } =
-    useWeekMenu();
+  const {
+    portionSize,
+    setPortionSize,
+    weekMenu,
+    addRecipeToWeekMenu,
+    removeRecipeFromWeekMenu,
+  } = useWeekMenu();
   const [filters, setFilters] = useState<{
     title: string;
     cheat: string[];
     days: number;
-  }>({
-    title: "",
-    cheat: [],
-    days: 0,
-  });
+    portionSize: string;
+    sort: string;
+  }>(DEFAULT_FILTERS);
 
   const allRecipes = groupRecipes(recipes);
 
@@ -45,11 +49,7 @@ const RecipeOverview = ({ recipes }: RecipeOverviewProps) => {
   }) => {
     switch (filter.type) {
       case "reset":
-        setFilters({
-          title: "",
-          cheat: [],
-          days: 0,
-        });
+        setFilters(DEFAULT_FILTERS);
         break;
       case "days":
         setFilters({ ...filters, days: filter.value as number });
@@ -77,12 +77,21 @@ const RecipeOverview = ({ recipes }: RecipeOverviewProps) => {
           setFilters({ ...filters, cheat: newCheat });
         }
         break;
+      case "portionSize":
+        const portionSize = filter.value as string;
+        setFilters({ ...filters, portionSize: portionSize });
+        setPortionSize(portionSize);
+        break;
+      case "sort":
+        setFilters({ ...filters, sort: filter.value as string });
+        break;
       default:
         break;
     }
   };
 
   useEffect(() => {
+    // Filter the recipes
     const newFilteredRecipes = recipes.filter((recipe) => {
       const titleMatch = recipe.title
         .toLowerCase()
@@ -117,7 +126,7 @@ const RecipeOverview = ({ recipes }: RecipeOverviewProps) => {
       );
     });
 
-    setFilteredRecipes(groupRecipes(newFilteredRecipes));
+    setFilteredRecipes(groupRecipes(newFilteredRecipes, filters.sort));
   }, [filters, recipes]);
 
   return (
@@ -128,7 +137,7 @@ const RecipeOverview = ({ recipes }: RecipeOverviewProps) => {
           <>
             <WeekMenuList {...weekMenu} />
 
-            <ButtonLink href={ROUTES.weekmenu} label="Bestel producten" />
+            <ButtonLink href={ROUTES.groceries} label="Bestel producten" />
             <Button
               onClick={() => {
                 weekMenu.items.forEach((recipe) => {
@@ -207,16 +216,21 @@ const RecipeOverview = ({ recipes }: RecipeOverviewProps) => {
                               {recipe.cheatmeal.map((cheat) => (
                                 <span
                                   key={`${recipe.sys.id}-${cheat}`}
-                                  className={classNames(
-                                    typographyStyles.smallLabel,
-                                    styles.cheatLabel
-                                  )}
+                                  className={typographyStyles.cheatLabel}
                                 >
                                   {cheat}
                                 </span>
                               ))}
                             </div>
                           )}
+
+                          <NutritionalOverview
+                            portionSize={portionSize}
+                            calories={recipe.calories}
+                            carbs={recipe.carbs}
+                            protein={recipe.protein}
+                            fat={recipe.fat}
+                          />
                         </div>
                         {recipe.image && (
                           <div className={styles.imageContainer}>

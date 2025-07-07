@@ -5,10 +5,11 @@ import { groupRecipes } from "@/utils/groupRecipes";
 import classNames from "classnames";
 import { useWeekMenu, WeekMenuProps } from "@/contexts/WeekmenuContext";
 import { Button } from "../button/button";
+import { NutritionalOverview } from "../nutritionalOverview/nutritionalOverview";
 
 export const WeekMenuList = (weekMenu: WeekMenuProps) => {
   const allWeekMenuRecipesByType = groupRecipes(weekMenu.items);
-  const { removeRecipeFromWeekMenu } = useWeekMenu();
+  const { removeRecipeFromWeekMenu, portionSize } = useWeekMenu();
 
   const weekMenuDays = allWeekMenuRecipesByType[RECIPE]?.reduce(
     (acc, { days }) => acc + days,
@@ -46,6 +47,7 @@ export const WeekMenuList = (weekMenu: WeekMenuProps) => {
                       key={`${recipe.sys.id}-${cheat}`}
                       className={classNames(
                         typographyStyles.smallLabel,
+                        typographyStyles.cheatLabel,
                         styles.cheatLabel
                       )}
                     >
@@ -54,6 +56,16 @@ export const WeekMenuList = (weekMenu: WeekMenuProps) => {
                   ))}
                 </div>
               )}
+
+              <NutritionalOverview
+                small
+                calories={recipe.calories}
+                carbs={recipe.carbs}
+                protein={recipe.protein}
+                fat={recipe.fat}
+                portionSize={portionSize}
+              />
+
               {recipe.book && recipe.pageNumber && (
                 <p
                   className={classNames(

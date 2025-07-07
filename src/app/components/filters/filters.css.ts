@@ -1,9 +1,10 @@
 import { style } from "@vanilla-extract/css";
 import { borderRadius, colors } from "@/style/vars.css";
+import { recipe } from "@vanilla-extract/recipes";
 
 export const form = style({
   backgroundColor: colors.secondaryLight,
-  padding: "16px",
+
   borderRadius,
   width: "calc(50% - 8px)",
   "@media": {
@@ -11,6 +12,42 @@ export const form = style({
       width: "100%",
     },
   },
+});
+
+export const toggleContainer = recipe({
+  base: {
+    padding: "0 16px 16px 16px",
+  },
+  variants: {
+    isVisible: {
+      true: {
+        display: "block",
+      },
+      false: {
+        display: "none",
+      },
+    },
+  },
+});
+
+export const toggleButton = style({
+  width: "100%",
+  padding: "16px",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+});
+
+export const filterNumber = style({
+  backgroundColor: colors.secondary,
+  borderRadius: "50%",
+  width: "24px",
+  height: "24px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  marginRight: "auto",
+  marginLeft: "8px",
 });
 
 export const container = style({
@@ -28,4 +65,12 @@ export const checkboxes = style({
 
 export const resetButton = style({
   alignSelf: "flex-start",
+});
+
+export const visible = style({
+  display: "block",
+});
+
+export const hidden = style({
+  display: "none",
 });

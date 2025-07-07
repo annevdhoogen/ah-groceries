@@ -81,14 +81,6 @@ export const cheatContainer = style({
   gap: "8px",
 });
 
-export const cheatLabel = style({
-  backgroundColor: colors.secondary,
-  color: colors.textOnSecondary,
-  alignSelf: "flex-start",
-  padding: "4px 8px",
-  borderRadius: borderRadius,
-});
-
 export const dayLabel = style({
   backgroundColor: colors.primary,
   color: colors.textOnPrimary,

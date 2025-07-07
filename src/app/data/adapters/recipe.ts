@@ -39,5 +39,9 @@ export const recipeAdapter = async (
 
     lemonAmount: data.recipe?.lemonAmount || 0,
     limeAmount: data.recipe?.limeAmount || 0,
+    calories: data.recipe?.calories || 0,
+    carbs: data.recipe?.carbs || 0,
+    protein: data.recipe?.protein || 0,
+    fat: data.recipe?.fat || 0,
   };
 };

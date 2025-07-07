@@ -1,11 +1,13 @@
 import { FieldsetHTMLAttributes, InputHTMLAttributes, RefObject } from "react";
 import * as styles from "./formElements.css";
+import * as typographyStyles from "@/style/typography.css";
 import classNames from "classnames";
 
 interface Input
   extends InputHTMLAttributes<HTMLInputElement | HTMLSelectElement> {
   id: string;
   name?: string;
+  description?: string;
   type?: string;
   label: string;
   innerRef?: RefObject<HTMLInputElement | HTMLSelectElement>;
@@ -15,6 +17,7 @@ export const Input = ({
   id,
   type = "text",
   label,
+  description,
   innerRef,
   required,
   ...props
@@ -40,6 +43,16 @@ export const Input = ({
         ref={innerRef as RefObject<HTMLInputElement>}
         {...props}
       />
+      {description && (
+        <p
+          className={classNames(
+            typographyStyles.smallLabel,
+            styles.description
+          )}
+        >
+          {description}
+        </p>
+      )}
     </div>
   );
 };

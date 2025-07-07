@@ -9,5 +9,6 @@ export const colors = {
   secondary: "#f4d2eb", // pink, used for borders and week menu background
   secondaryLight: "#fdf2fa", // light pink, used for recipe hovers and grocery list background
   textOnSecondary: "#000", // black, used for text on secondary color
+  textLightOnSecondary: "#666", // gray, used for description text on secondary color
   border: "#ccc", // gray, used for input borders
 };
