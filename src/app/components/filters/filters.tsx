@@ -8,7 +8,7 @@ import Checkbox from "../checkbox/checkbox";
 import { Input, Select } from "../formElements/formElements";
 import * as styles from "./filters.css";
 import Radio from "../radio/radio";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Button } from "../button/button";
 import * as typographyStyles from "@/style/typography.css";
 
@@ -35,6 +35,22 @@ export const Filters = ({
 }: FiltersProps) => {
   const cheatsToShow = [NO_CHEAT, ...CHEATS];
   const [isVisible, setIsVisible] = useState(false);
+  const [titleValue, setTitleValue] = useState(filters.title);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+
+  const debouncedTitleChange = useCallback(
+    (value: string) => {
+      if (timeoutId) clearTimeout(timeoutId);
+      const newTimeoutId = setTimeout(() => {
+        onFilterChange({
+          type: "title",
+          value: value,
+        });
+      }, 300);
+      setTimeoutId(newTimeoutId);
+    },
+    [onFilterChange, timeoutId]
+  );
 
   const activeFilters = Object.keys(filters).filter((key) => {
     if (key === "title") {
@@ -49,9 +65,7 @@ export const Filters = ({
     if (key === "portionSize") {
       return filters.portionSize !== DEFAULT_FILTERS.portionSize;
     }
-    if (key === "sort") {
-      return filters.sort !== DEFAULT_FILTERS.sort;
-    }
+    // sort is not a filter, so we don't need to show it
     return false;
   });
 
@@ -78,14 +92,13 @@ export const Filters = ({
           <div className={styles.container}>
             <Input
               id="filter-title"
-              value={filters.title}
+              value={titleValue}
               label="Zoek op titel of ingredient"
-              onChange={(e) =>
-                onFilterChange({
-                  type: "title",
-                  value: e.target.value,
-                })
-              }
+              onChange={(e) => {
+                const value = e.target.value;
+                setTitleValue(value);
+                debouncedTitleChange(value);
+              }}
             />
           </div>
 

@@ -25,7 +25,7 @@ export const groupRecipes = (recipes: RecipeProps[], sort?: string) => {
     }
   });
 
-  if (sort) {
+  if (sort && sortedGroupedRecipes[TYPES.recipe]?.length > 0) {
     sortedGroupedRecipes[TYPES.recipe] = sortedGroupedRecipes[
       TYPES.recipe
     ].sort((a, b) => {
