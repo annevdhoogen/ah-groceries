@@ -39,6 +39,13 @@ export const NutritionalOverview = ({
     );
   };
 
+  const getValue = (value: number, decimalPlaces: number = 1) => {
+    if (value === 0) {
+      return "0";
+    }
+    return (value * portionSizeNumber).toFixed(decimalPlaces);
+  };
+
   return (
     <dl
       className={classNames(
@@ -47,15 +54,11 @@ export const NutritionalOverview = ({
       )}
     >
       {!!calories && (
-        <Item label="Calories" value={`${calories * portionSizeNumber}kcal`} />
+        <Item label="Calories" value={`${getValue(calories, 0)}kcal`} />
       )}
-      {!!carbs && (
-        <Item label="Carbs" value={`${carbs * portionSizeNumber}g`} />
-      )}
-      {!!protein && (
-        <Item label="Protein" value={`${protein * portionSizeNumber}g`} />
-      )}
-      {!!fat && <Item label="Fat" value={`${fat * portionSizeNumber}g`} />}
+      {!!carbs && <Item label="Carbs" value={`${getValue(carbs)}g`} />}
+      {!!protein && <Item label="Protein" value={`${getValue(protein)}g`} />}
+      {!!fat && <Item label="Fat" value={`${getValue(fat)}g`} />}
     </dl>
   );
 };
