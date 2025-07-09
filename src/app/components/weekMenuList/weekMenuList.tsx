@@ -9,7 +9,7 @@ import { NutritionalOverview } from "../nutritionalOverview/nutritionalOverview"
 
 export const WeekMenuList = (weekMenu: WeekMenuProps) => {
   const allWeekMenuRecipesByType = groupRecipes(weekMenu.items);
-  const { removeRecipeFromWeekMenu, portionSize } = useWeekMenu();
+  const { removeRecipeFromWeekMenu } = useWeekMenu();
 
   const weekMenuDays = allWeekMenuRecipesByType[TYPES.recipe]?.reduce(
     (acc, { days }) => acc + days,
@@ -58,12 +58,11 @@ export const WeekMenuList = (weekMenu: WeekMenuProps) => {
               )}
 
               <NutritionalOverview
-                small
+                type="small"
                 calories={recipe.calories}
                 carbs={recipe.carbs}
                 protein={recipe.protein}
                 fat={recipe.fat}
-                portionSize={portionSize}
               />
 
               {recipe.book && recipe.pageNumber && (

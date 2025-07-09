@@ -10,6 +10,7 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { Document, INLINES } from "@contentful/rich-text-types";
 import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
+import { NutritionalOverview } from "../nutritionalOverview/nutritionalOverview";
 export interface productProps {
   title: string;
   ahId: number;
@@ -61,6 +62,10 @@ export const Recipe = (recipe: RecipeProps) => {
     optionalProducts,
     image,
     description,
+    calories,
+    carbs,
+    protein,
+    fat,
   } = recipe;
 
   const { weekMenu, addRecipeToWeekMenu, removeRecipeFromWeekMenu } =
@@ -90,7 +95,40 @@ export const Recipe = (recipe: RecipeProps) => {
           {cheatmeal && cheatmeal.length > 0 && (
             <p>Bevat: {cheatmeal.join(", ")}</p>
           )}
+
+          {description && (
+            <div className={styles.description}>
+              {documentToReactComponents(description, {
+                renderNode: {
+                  [INLINES.ENTRY_HYPERLINK]: (node, children) => {
+                    return (
+                      <Link
+                        href={`${ROUTES.recipes}/${node.data.target.sys.id}`}
+                      >
+                        {children}
+                      </Link>
+                    );
+                  },
+                },
+              })}
+            </div>
+          )}
+
+          <NutritionalOverview
+            calories={calories}
+            carbs={carbs}
+            protein={protein}
+            fat={fat}
+            type="inline"
+          />
         </div>
+      </div>
+      <div className={styles.contentContainer}>
+        <GroceryList title="Ingrediënten" products={allRequiredProducts} />
+        <GroceryList
+          title="Optionele Ingrediënten"
+          products={optionalProducts}
+        />
         {image && (
           <div className={styles.imageContainer}>
             <Image
@@ -101,29 +139,6 @@ export const Recipe = (recipe: RecipeProps) => {
               className={styles.image}
               loading="lazy"
             />
-          </div>
-        )}
-      </div>
-      <div className={styles.contentContainer}>
-        <GroceryList title="Ingrediënten" products={allRequiredProducts} />
-        <GroceryList
-          title="Optionele Ingrediënten"
-          products={optionalProducts}
-        />
-        {description && (
-          <div className={styles.description}>
-            <h2>Beschrijving</h2>
-            {documentToReactComponents(description, {
-              renderNode: {
-                [INLINES.ENTRY_HYPERLINK]: (node, children) => {
-                  return (
-                    <Link href={`${ROUTES.recipes}/${node.data.target.sys.id}`}>
-                      {children}
-                    </Link>
-                  );
-                },
-              },
-            })}
           </div>
         )}
       </div>

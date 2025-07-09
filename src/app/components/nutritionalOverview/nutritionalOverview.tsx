@@ -7,8 +7,7 @@ interface NutritionalOverviewProps {
   carbs?: number;
   protein?: number;
   fat?: number;
-  portionSize: string;
-  small?: boolean;
+  type?: "inline" | "small";
 }
 
 interface ItemProps {
@@ -21,18 +20,15 @@ export const NutritionalOverview = ({
   carbs,
   protein,
   fat,
-  portionSize,
-  small = false,
+  type,
 }: NutritionalOverviewProps) => {
   if (!calories && !carbs && !protein && !fat) {
     return null;
   }
 
-  const portionSizeNumber = portionSize !== "" ? parseFloat(portionSize) : 0;
-
   const Item = ({ label, value }: ItemProps) => {
     return (
-      <div className={styles.item({ small })}>
+      <div className={styles.item({ type })}>
         <dt>{label}</dt>
         <dd>{value}</dd>
       </div>
@@ -43,13 +39,14 @@ export const NutritionalOverview = ({
     if (value === 0) {
       return "0";
     }
-    return (value * portionSizeNumber).toFixed(decimalPlaces);
+
+    return value.toFixed(decimalPlaces);
   };
 
   return (
     <dl
       className={classNames(
-        styles.nutritionalOverview,
+        styles.nutritionalOverview({ type }),
         typographyStyles.smallLabel
       )}
     >

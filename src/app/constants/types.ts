@@ -33,7 +33,6 @@ export const DEFAULT_FILTERS = {
   title: "",
   cheat: [],
   days: 0,
-  portionSize: "0.4",
   sort: "title",
 };
 
