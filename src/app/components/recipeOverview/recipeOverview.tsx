@@ -23,18 +23,12 @@ export interface RecipeOverviewProps {
 }
 
 const RecipeOverview = ({ recipes }: RecipeOverviewProps) => {
-  const {
-    portionSize,
-    setPortionSize,
-    weekMenu,
-    addRecipeToWeekMenu,
-    removeRecipeFromWeekMenu,
-  } = useWeekMenu();
+  const { weekMenu, addRecipeToWeekMenu, removeRecipeFromWeekMenu } =
+    useWeekMenu();
   const [filters, setFilters] = useState<{
     title: string;
     cheat: string[];
     days: number;
-    portionSize: string;
     sort: string;
   }>(DEFAULT_FILTERS);
 
@@ -76,11 +70,6 @@ const RecipeOverview = ({ recipes }: RecipeOverviewProps) => {
           );
           setFilters({ ...filters, cheat: newCheat });
         }
-        break;
-      case "portionSize":
-        const portionSize = filter.value as string;
-        setFilters({ ...filters, portionSize: portionSize });
-        setPortionSize(portionSize);
         break;
       case "sort":
         setFilters({ ...filters, sort: filter.value as string });
@@ -225,7 +214,6 @@ const RecipeOverview = ({ recipes }: RecipeOverviewProps) => {
                           )}
 
                           <NutritionalOverview
-                            portionSize={portionSize}
                             calories={recipe.calories}
                             carbs={recipe.carbs}
                             protein={recipe.protein}

@@ -25,7 +25,8 @@ export const headerContainer = style({
 export const headerContent = style({
   display: "flex",
   flexDirection: "column",
-  gap: "4px",
+  gap: "16px",
+  width: "100%",
 });
 
 export const contentContainer = style({
@@ -57,7 +58,6 @@ export const imageContainer = style({
   aspectRatio: "1",
   width: "100%",
   height: "100%",
-  maxWidth: "220px",
 });
 
 export const image = style({

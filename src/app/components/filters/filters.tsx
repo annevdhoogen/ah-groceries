@@ -23,7 +23,6 @@ type FiltersProps = {
     title: string;
     cheat: string[];
     days: number;
-    portionSize: string;
     sort: string;
   };
 };
@@ -62,9 +61,6 @@ export const Filters = ({
     if (key === "days") {
       return filters.days !== DEFAULT_FILTERS.days;
     }
-    if (key === "portionSize") {
-      return filters.portionSize !== DEFAULT_FILTERS.portionSize;
-    }
     // sort is not a filter, so we don't need to show it
     return false;
   });
@@ -98,21 +94,6 @@ export const Filters = ({
                 const value = e.target.value;
                 setTitleValue(value);
                 debouncedTitleChange(value);
-              }}
-            />
-          </div>
-
-          <div className={styles.container}>
-            <Input
-              id="filter-portion-size"
-              value={filters.portionSize}
-              label="Hoe groot is je portie?"
-              description="Een maaltijd is voor 2 personen"
-              onChange={(e) => {
-                onFilterChange({
-                  type: "portionSize",
-                  value: e.target.value,
-                });
               }}
             />
           </div>

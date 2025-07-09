@@ -1,12 +1,21 @@
 import { borderRadius, colors } from "@/style/vars.css";
-import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 import { recipeContent } from "../recipeOverview/recipeOverview.css";
 
-export const nutritionalOverview = style({
-  display: "grid",
-  gridTemplateColumns: "1fr 1fr 1fr 1fr",
-  gap: "4px",
+export const nutritionalOverview = recipe({
+  base: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr 1fr 1fr",
+    gap: "4px",
+  },
+  variants: {
+    type: {
+      inline: {
+        maxWidth: "360px",
+      },
+      small: {},
+    },
+  },
 });
 
 export const item = recipe({
@@ -25,11 +34,12 @@ export const item = recipe({
     },
   },
   variants: {
-    small: {
-      true: {
+    type: {
+      small: {
         padding: 0,
         backgroundColor: "transparent",
       },
+      inline: {},
     },
   },
 });
