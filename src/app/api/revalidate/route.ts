@@ -2,6 +2,18 @@
 
 import { revalidatePath } from "next/cache";
 
+export async function GET() {
+  return new Response(
+    JSON.stringify({ message: "Revalidation endpoint is working" }),
+    {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
 export async function POST(req: Request) {
   const secret = req.headers.get("x-revalidate-secret");
 
