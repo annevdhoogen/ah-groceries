@@ -4,12 +4,12 @@ export const generateAddToCartUrl = (
   allRequiredProducts: productProps[],
   checkedOptionalProducts: productProps[]
 ) => {
-  const allItems: { ahId: number; amount: number }[] = [];
+  const allItems: Record<number, { ahId: number; amount: number }> = {};
 
   allRequiredProducts.forEach((product) => {
     const existingProduct = allItems[product.ahId];
     if (existingProduct) {
-      allItems[product.ahId].amount++;
+      existingProduct.amount++;
     } else {
       allItems[product.ahId] = {
         ahId: product.ahId,
@@ -19,9 +19,9 @@ export const generateAddToCartUrl = (
   });
 
   checkedOptionalProducts.forEach((product) => {
-    const existingProduct = allRequiredProducts[product.ahId];
+    const existingProduct = allItems[product.ahId];
     if (existingProduct) {
-      allItems[product.ahId].amount++;
+      existingProduct.amount++;
     } else {
       allItems[product.ahId] = {
         ahId: product.ahId,
@@ -32,9 +32,9 @@ export const generateAddToCartUrl = (
 
   // Construct the URL
   const baseUrl = "https://www.ah.nl/mijnlijst/add-multiple";
-  const params = new URLSearchParams(
-    allItems.map((item) => [`p=${item.ahId}:${item.amount}`]).join("&")
-  );
+  const params = Object.values(allItems)
+    .map((item) => `p=${item.ahId}:${item.amount}`)
+    .join("&");
 
   return `${baseUrl}?${params}`;
 };

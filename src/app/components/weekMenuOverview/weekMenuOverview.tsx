@@ -46,7 +46,6 @@ export const WeekMenuOverview = () => {
       return acc.concat(
         optionalProducts.filter(
           (product) =>
-            !acc.some((p) => p.ahId === product.ahId) &&
             // only add when product does not already exist in allRequiredProducts
             !allRequiredProducts.some((p) => p.ahId === product.ahId)
         )
@@ -71,13 +70,24 @@ export const WeekMenuOverview = () => {
         checkedOptionalProducts={checkedOptionalProducts}
         onChange={(isChecked, product) => {
           if (!product) return;
+          const matchingOptionalProducts = allOptionalProducts.filter(
+            (optionalProduct) => optionalProduct.ahId === product.ahId
+          );
+
           if (isChecked) {
-            // add product to list
-            setCheckedOptionalProducts([...checkedOptionalProducts, product]);
+            // Add all matching products so grouped quantities are preserved in the cart.
+            setCheckedOptionalProducts((prevCheckedOptionalProducts) => [
+              ...prevCheckedOptionalProducts.filter(
+                (checkedProduct) => checkedProduct.ahId !== product.ahId
+              ),
+              ...matchingOptionalProducts,
+            ]);
           } else {
-            // remove product from list
-            setCheckedOptionalProducts(
-              checkedOptionalProducts.filter((p) => p.ahId !== product.ahId)
+            // Remove all matching products when the grouped checkbox is unchecked.
+            setCheckedOptionalProducts((prevCheckedOptionalProducts) =>
+              prevCheckedOptionalProducts.filter(
+                (checkedProduct) => checkedProduct.ahId !== product.ahId
+              )
             );
           }
         }}

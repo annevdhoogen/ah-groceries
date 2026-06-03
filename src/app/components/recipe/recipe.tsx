@@ -142,20 +142,27 @@ export const Recipe = (recipe: RecipeProps) => {
           </div>
         )}
       </div>
-      <Button
-        label={
-          recipeIsInWeekMenu
-            ? "Verwijderen uit weekmenu"
-            : "Toevoegen aan weekmenu"
-        }
-        onClick={() => {
-          if (recipeIsInWeekMenu) {
-            removeRecipeFromWeekMenu(recipe);
-          } else {
-            addRecipeToWeekMenu(recipe);
+      <div className={styles.actions}>
+        <Button
+          label={
+            recipeIsInWeekMenu
+              ? "Verwijderen uit weekmenu"
+              : "Toevoegen aan weekmenu"
           }
-        }}
-      />
+          onClick={() => {
+            if (recipeIsInWeekMenu) {
+              removeRecipeFromWeekMenu(recipe);
+            } else {
+              addRecipeToWeekMenu(recipe);
+            }
+          }}
+        />
+        {recipeIsInWeekMenu && (
+          <Link href={ROUTES.groceries} className={styles.weekMenuLink}>
+            Ga naar weekmenu
+          </Link>
+        )}
+      </div>
     </section>
   );
 };

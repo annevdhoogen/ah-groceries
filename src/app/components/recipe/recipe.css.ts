@@ -1,4 +1,4 @@
-import { borderRadius } from "@/style/vars.css";
+import { borderRadius, colors } from "@/style/vars.css";
 import { style } from "@vanilla-extract/css";
 
 export const container = style({
@@ -70,4 +70,16 @@ export const description = style({
   display: "flex",
   flexDirection: "column",
   gap: "8px",
+});
+
+export const actions = style({
+  display: "flex",
+  alignItems: "center",
+  gap: "16px",
+  flexWrap: "wrap",
+});
+
+export const weekMenuLink = style({
+  color: colors.primary,
+  textDecoration: "underline",
 });
